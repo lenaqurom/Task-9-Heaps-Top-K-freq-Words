@@ -1,0 +1,59 @@
+function topKFrequent(words, k):
+    // Step 1: count the frequency of each word
+    declare freqDict as an empty dictionary
+
+    for each word in words:
+        if word exists in freqDict:
+            increment the count of word in freqDict
+        else:
+            set the count of word in freqDict to 1
+
+    // Step 2: create a min-heap to keep track of the top k elements
+    declare minHeap as an empty list
+
+    // define a helper function to compare elements in the heap
+    function comparator(tupleA, tupleB):
+        if frequency of tupleA is equal to frequency of tupleB:
+            return lexicographical comparison of tupleB's word with tupleA's word
+        else:
+            return comparison of frequency of tupleA with frequency of tupleB
+
+    // heap operations
+    function heapifyUp(index):
+        while index > 0:
+            calculate parentIndex
+            if comparator of element at parentIndex and index favors parent:
+                swap elements at index and parentIndex
+                update index to parentIndex
+            else:
+                break loop
+
+    function heapifyDown(index):
+        set smallest as index
+        calculate leftChild and rightChild indices
+        if leftChild is valid and comparator favors leftChild over smallest:
+            set smallest to leftChild
+        if rightChild is valid and comparator favors rightChild over smallest:
+            set smallest to rightChild
+        if smallest is not index:
+            swap elements at index and smallest
+            call heapifyDown(smallest)
+
+    // Step 3: build the min-heap using the frequency dictionary
+    for each key-value pair in frequencyDict:
+        add pair to minHeap
+        call heapifyUp for the last element of minHeap
+        if length of minHeap exceeds k:
+            remove the root of minHeap
+            set the last element of minHeap as the new root
+            call heapifyDown for the root
+
+    // Step 4: sort the heap for the final output
+    sort minHeap using the comparator
+
+    // Step 5: extract the words from the sorted minHeap
+    declare result as an empty list
+    for each element in minHeap:
+        Add the word of the element to result
+
+    return result
